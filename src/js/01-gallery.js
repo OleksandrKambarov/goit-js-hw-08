@@ -18,6 +18,9 @@ const galleryMarkup = galleryItems
 
 picturesContainer.innerHTML = galleryMarkup;
 
+import 'simplelightbox/dist/simple-lightbox.min.css';
+import SimpleLightbox from 'simpleLightbox';
+
 let lightbox = new SimpleLightbox('.gallery a', {
   captionDelay: 250,
   captionsData: 'alt',
