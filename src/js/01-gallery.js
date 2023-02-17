@@ -4,53 +4,21 @@ import { galleryItems } from './gallery-items';
 
 console.log(galleryItems);
 
-const picturesContainer = document.querySelector('.js-gallery');
-const galleryMarkup = createGalleryMarkup(galleryItems);
+const picturesContainer = document.querySelector('.gallery');
 
-picturesContainer.insertAdjacentHTML('beforeend', galleryMarkup);
+const galleryMarkup = galleryItems
+  .map(({ preview, original, description }) => {
+    return `
+      <a class="gallery__item" href="${original}">
+      <img class="gallery__image" src="${preview}" alt="${description}" />
+    </a> 
+      `;
+  })
+  .join('');
 
-picturesContainer.addEventListener('click', onpicturesContainerCkick);
+picturesContainer.innerHTML = galleryMarkup;
 
-function createGalleryMarkup(galleryItems) {
-  return galleryItems
-    .map(({ preview, original, description }) => {
-      return `
-      <div class="gallery__item">
-        <a class="gallery__link" href="${original}">
-          <img
-            class="gallery__image"
-            src="${preview}"
-            data-source="${original}"
-            alt="${description}"
-          />
-        </a>
-      </div>`;
-    })
-    .join('');
-}
-
-function onpicturesContainerCkick(e) {
-  e.preventDefault();
-
-  if (!e.target.dataset.source) {
-    return;
-  }
-
-  const instance = basicLightbox.create(
-    `
-  <img src= ${e.target.dataset.source} width="800" height="600">
-`,
-    {
-      onShow: () => document.addEventListener('keydown', onCloseModel),
-      onClose: () => document.removeEventListener('keydown', onCloseModel),
-    }
-  );
-
-  instance.show();
-
-  function onCloseModel(e) {
-    if (e.code === 'Escape') {
-      instance.close(() => console.log('lightbox not visible anymore'));
-    }
-  }
-}
+let lightbox = new SimpleLightbox('.gallery a', {
+  captionDelay: 250,
+  captionsData: 'alt',
+});
