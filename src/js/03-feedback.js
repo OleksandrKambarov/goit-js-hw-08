@@ -23,9 +23,6 @@ function storageFormData(e) {
 
 function onFormSubmit(e) {
   e.preventDefault();
-  //      if (refs.input.value === "" || refs.textarea.value === "") {
-  //          return alert(`Please fill in all the fields!`);
-  //      }
 
   const savedDatas = JSON.parse(localStorage.getItem(STORAGE_KEY));
   console.log(savedDatas);
@@ -37,13 +34,6 @@ function onFormSubmit(e) {
 
 function reloadPage() {
   if (savedValues) {
-    // 1st variant
-
-    // for (let key in savedDataObject) {
-    //   refs.form.elements[key].value = savedDataObject[key];
-    // }
-
-    // best light variant
     refs.input.value = savedDataObject.email || '';
     refs.textarea.value = savedDataObject.message || '';
   }
